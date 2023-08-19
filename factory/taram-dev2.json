@@ -1,0 +1,9 @@
+{
+	"name": "taram-dev2",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3659fb78-b4bc-4569-9078-c5648f046a76",
+		"tenantId": "5b09d31e-db62-408d-b586-6171e5d8aae5"
+	}
+}

@@ -1,0 +1,92 @@
+{
+	"name": "DFCSVDelete",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "reservations_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "airbnb_reservations_table",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {Confirmation code} as string,",
+				"          Status as string,",
+				"          {Guest name} as string,",
+				"          Contact as string,",
+				"          {# of adults} as integer,",
+				"          {# of children} as integer,",
+				"          {# of infants} as integer,",
+				"          {Start date} as date 'MM/dd/yyyy',",
+				"          {End date} as date 'MM/dd/yyyy',",
+				"          {# of nights} as integer,",
+				"          Booked as date,",
+				"          Listing as string,",
+				"          Earnings as float '$###,###.##'",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     purgeFiles: true,",
+				"     rowUrlColumn: 'FileName',",
+				"     wildcardPaths:['*.csv']) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Confirmation_code as string,",
+				"          Status as string,",
+				"          Guest_name as string,",
+				"          Contact as string,",
+				"          of_adults as integer,",
+				"          of_children as integer,",
+				"          of_infants as integer,",
+				"          Start_date as date,",
+				"          End_date as date,",
+				"          of_nights as integer,",
+				"          Booked as date,",
+				"          Listing as string,",
+				"          Earnings as decimal(19,4),",
+				"          FileName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Confirmation_code = {Confirmation code},",
+				"          Status,",
+				"          Guest_name = {Guest name},",
+				"          Contact,",
+				"          of_adults = {# of adults},",
+				"          of_children = {# of children},",
+				"          of_infants = {# of infants},",
+				"          Start_date = {Start date},",
+				"          End_date = {End date},",
+				"          of_nights = {# of nights},",
+				"          Booked,",
+				"          Listing,",
+				"          Earnings,",
+				"          FileName",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

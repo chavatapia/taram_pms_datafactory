@@ -1,0 +1,77 @@
+{
+	"name": "reservations_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "airbnb-reservations"
+			},
+			"columnDelimiter": ",",
+			"rowDelimiter": "\n",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Confirmation code",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			},
+			{
+				"name": "Guest name",
+				"type": "String"
+			},
+			{
+				"name": "Contact",
+				"type": "String"
+			},
+			{
+				"name": "# of adults",
+				"type": "String"
+			},
+			{
+				"name": "# of children",
+				"type": "String"
+			},
+			{
+				"name": "# of infants",
+				"type": "String"
+			},
+			{
+				"name": "Start date",
+				"type": "String"
+			},
+			{
+				"name": "End date",
+				"type": "String"
+			},
+			{
+				"name": "# of nights",
+				"type": "String"
+			},
+			{
+				"name": "Booked",
+				"type": "String"
+			},
+			{
+				"name": "Listing",
+				"type": "String"
+			},
+			{
+				"name": "Earnings",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

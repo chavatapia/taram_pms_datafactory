@@ -1,0 +1,80 @@
+{
+	"name": "airbnb_reservations_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Confirmation_code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guest_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Contact",
+				"type": "nvarchar"
+			},
+			{
+				"name": "of_adults",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "of_children",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "of_infants",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "Start_date",
+				"type": "date"
+			},
+			{
+				"name": "End_date",
+				"type": "date"
+			},
+			{
+				"name": "of_nights",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "Booked",
+				"type": "date"
+			},
+			{
+				"name": "Listing",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Earnings",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "FileName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "airbnb_reservations"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
