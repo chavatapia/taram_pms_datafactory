@@ -264,7 +264,7 @@
 								"referenceName": "airbnb_reservations_table",
 								"type": "DatasetReference"
 							},
-							"name": "sink1"
+							"name": "sink"
 						}
 					],
 					"transformations": [
@@ -337,7 +337,7 @@
 						"          Listing,",
 						"          Earnings,",
 						"          FileName",
-						"     )) ~> sink1"
+						"     )) ~> sink"
 					]
 				}
 			},
@@ -371,7 +371,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"source1": {},
-									"sink1": {}
+									"sink": {}
 								}
 							},
 							"staging": {},
@@ -413,6 +413,7 @@
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
 					"blobPathBeginsWith": "/airbnb-reservations/blobs/reservation",
+					"blobPathEndsWith": ".csv",
 					"ignoreEmptyBlobs": true,
 					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
 					"events": [
