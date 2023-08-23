@@ -23,7 +23,7 @@
 			"type": "string",
 			"defaultValue": "stapia"
 		},
-		"trigger1_properties_typeProperties_scope": {
+		"trigger_reservation_files_created_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/24a8abd0-d818-4f5d-aca2-258ab66b40fa/resourceGroups/taram-dev/providers/Microsoft.Storage/storageAccounts/frmrcgbank"
 		},
@@ -66,8 +66,8 @@
 					"Microsoft3651_properties_typeProperties_servicePrincipalId": {
 						"value": "[parameters('Microsoft3651_properties_typeProperties_servicePrincipalId')]"
 					},
-					"trigger1_properties_typeProperties_scope": {
-						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
+					"trigger_reservation_files_created_properties_typeProperties_scope": {
+						"value": "[parameters('trigger_reservation_files_created_properties_typeProperties_scope')]"
 					}
 				}
 			},
