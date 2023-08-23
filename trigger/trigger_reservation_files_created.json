@@ -1,5 +1,5 @@
 {
-	"name": "trigger1",
+	"name": "trigger_reservation_files_created",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
