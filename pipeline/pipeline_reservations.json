@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "DFCSVDelete",
+				"name": "DFCSVDeletes",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
