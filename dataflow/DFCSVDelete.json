@@ -18,7 +18,7 @@
 						"referenceName": "airbnb_reservations_table",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "sink"
 				}
 			],
 			"transformations": [
@@ -48,7 +48,7 @@
 				"     purgeFiles: true,",
 				"     rowUrlColumn: 'FileName',",
 				"     wildcardPaths:['*.csv']) ~> source1",
-				"source1 alterRow(upsertIf(1 == 1)) ~> AlterRow1",
+				"source1 alterRow(upsertIf(1==1)) ~> AlterRow1",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -91,7 +91,7 @@
 				"          Listing,",
 				"          Earnings,",
 				"          FileName",
-				"     )) ~> sink1"
+				"     )) ~> sink"
 			]
 		}
 	}
