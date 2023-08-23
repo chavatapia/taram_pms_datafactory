@@ -1,0 +1,428 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "taram-dev2"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"Microsoft3651_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'Microsoft3651'"
+		},
+		"Microsoft3651_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "stapia"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/24a8abd0-d818-4f5d-aca2-258ab66b40fa/resourceGroups/taram-dev/providers/Microsoft.Storage/storageAccounts/frmrcgbank"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Microsoft3651')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Office365",
+				"typeProperties": {
+					"office365TenantId": "5b09d31e-db62-408d-b586-6171e5d8aae5",
+					"servicePrincipalTenantId": "5b09d31e-db62-408d-b586-6171e5d8aae5",
+					"servicePrincipalId": "[parameters('Microsoft3651_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('Microsoft3651_servicePrincipalKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/airbnb_reservations_table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Confirmation_code",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Status",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guest_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Contact",
+						"type": "nvarchar"
+					},
+					{
+						"name": "of_adults",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "of_children",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "of_infants",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "Start_date",
+						"type": "date"
+					},
+					{
+						"name": "End_date",
+						"type": "date"
+					},
+					{
+						"name": "of_nights",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "Booked",
+						"type": "date"
+					},
+					{
+						"name": "Listing",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Earnings",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "FileName",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "airbnb_reservations"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/reservations_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "airbnb-reservations"
+					},
+					"columnDelimiter": ",",
+					"rowDelimiter": "\n",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Confirmation code",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "Guest name",
+						"type": "String"
+					},
+					{
+						"name": "Contact",
+						"type": "String"
+					},
+					{
+						"name": "# of adults",
+						"type": "String"
+					},
+					{
+						"name": "# of children",
+						"type": "String"
+					},
+					{
+						"name": "# of infants",
+						"type": "String"
+					},
+					{
+						"name": "Start date",
+						"type": "String"
+					},
+					{
+						"name": "End date",
+						"type": "String"
+					},
+					{
+						"name": "# of nights",
+						"type": "String"
+					},
+					{
+						"name": "Booked",
+						"type": "String"
+					},
+					{
+						"name": "Listing",
+						"type": "String"
+					},
+					{
+						"name": "Earnings",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DFCSVDelete')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "reservations_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "airbnb_reservations_table",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AlterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          {Confirmation code} as string,",
+						"          Status as string,",
+						"          {Guest name} as string,",
+						"          Contact as string,",
+						"          {# of adults} as integer,",
+						"          {# of children} as integer,",
+						"          {# of infants} as integer,",
+						"          {Start date} as date 'MM/dd/yyyy',",
+						"          {End date} as date 'MM/dd/yyyy',",
+						"          {# of nights} as integer,",
+						"          Booked as date,",
+						"          Listing as string,",
+						"          Earnings as float '$###,###.##'",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     purgeFiles: true,",
+						"     rowUrlColumn: 'FileName',",
+						"     wildcardPaths:['*.csv']) ~> source1",
+						"source1 alterRow(upsertIf(1==1)) ~> AlterRow1",
+						"AlterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Confirmation_code as string,",
+						"          Status as string,",
+						"          Guest_name as string,",
+						"          Contact as string,",
+						"          of_adults as integer,",
+						"          of_children as integer,",
+						"          of_infants as integer,",
+						"          Start_date as date,",
+						"          End_date as date,",
+						"          of_nights as integer,",
+						"          Booked as date,",
+						"          Listing as string,",
+						"          Earnings as decimal(19,4),",
+						"          FileName as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['Confirmation_code'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Confirmation_code = {Confirmation code},",
+						"          Status,",
+						"          Guest_name = {Guest name},",
+						"          Contact,",
+						"          of_adults = {# of adults},",
+						"          of_children = {# of children},",
+						"          of_infants = {# of infants},",
+						"          Start_date = {Start date},",
+						"          End_date = {End date},",
+						"          of_nights = {# of nights},",
+						"          Booked,",
+						"          Listing,",
+						"          Earnings,",
+						"          FileName",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/reservations_csv')]",
+				"[concat(variables('factoryId'), '/datasets/airbnb_reservations_table')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline_reservations')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DFCSVDelete",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DFCSVDelete",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-08-19T09:06:47Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DFCSVDelete')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pipeline_reservations",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/airbnb-reservations/blobs/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pipeline_reservations')]"
+			]
+		}
+	]
+}
