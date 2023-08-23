@@ -308,7 +308,7 @@
 				],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
-					"blobPathBeginsWith": "/airbnb-reservations/blobs/",
+					"blobPathBeginsWith": "/airbnb-reservations/blobs/reservation",
 					"ignoreEmptyBlobs": true,
 					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
 					"events": [
