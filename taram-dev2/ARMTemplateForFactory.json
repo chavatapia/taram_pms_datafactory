@@ -56,23 +56,8 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"source1": {
-										"FileName": {
-											"value": "@pipeline().parameters.fname",
-											"type": "Expression"
-										}
-									},
+									"source1": {},
 									"sink": {}
-								},
-								"linkedServiceParameters": {
-									"source1": {
-										"schemaLinkedService": {
-											"FileName": {
-												"value": "@pipeline().parameters.fname",
-												"type": "Expression"
-											}
-										}
-									}
 								}
 							},
 							"staging": {},
@@ -87,11 +72,6 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
-				},
-				"parameters": {
-					"fname": {
-						"type": "string"
-					}
 				},
 				"annotations": [],
 				"lastPublishTime": "2023-08-19T09:06:47Z"
@@ -193,20 +173,11 @@
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"FileName": {
-						"type": "string"
-					}
-				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().FileName",
-							"type": "Expression"
-						},
 						"container": "airbnb-reservations"
 					},
 					"columnDelimiter": ",",
@@ -325,7 +296,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
