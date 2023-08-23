@@ -170,11 +170,20 @@
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						},
 						"container": "airbnb-reservations"
 					},
 					"columnDelimiter": ",",
@@ -278,15 +287,15 @@
 						"          Status as string,",
 						"          {Guest name} as string,",
 						"          Contact as string,",
-						"          {# of adults} as integer,",
-						"          {# of children} as integer,",
-						"          {# of infants} as integer,",
-						"          {Start date} as date 'MM/dd/yyyy',",
-						"          {End date} as date 'MM/dd/yyyy',",
-						"          {# of nights} as integer,",
-						"          Booked as date,",
+						"          {# of adults} as string,",
+						"          {# of children} as string,",
+						"          {# of infants} as string,",
+						"          {Start date} as string,",
+						"          {End date} as string,",
+						"          {# of nights} as string,",
+						"          Booked as string,",
 						"          Listing as string,",
-						"          Earnings as float '$###,###.##'",
+						"          Earnings as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -370,8 +379,23 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"source1": {},
+									"source1": {
+										"FileName": {
+											"value": "@pipeline().parameters.fname",
+											"type": "Expression"
+										}
+									},
 									"sink": {}
+								},
+								"linkedServiceParameters": {
+									"source1": {
+										"schemaLinkedService": {
+											"FileName": {
+												"value": "@pipeline().parameters.fname",
+												"type": "Expression"
+											}
+										}
+									}
 								}
 							},
 							"staging": {},
@@ -387,6 +411,11 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"parameters": {
+					"fname": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"lastPublishTime": "2023-08-19T09:06:47Z"
 			},
@@ -400,7 +429,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Started",
+				"runtimeState": "Stopped",
 				"pipelines": [
 					{
 						"pipelineReference": {
