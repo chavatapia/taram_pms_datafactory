@@ -21,7 +21,11 @@
 					"name": "sink1"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "AlterRow1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          {Confirmation code} as string,",
@@ -44,7 +48,8 @@
 				"     purgeFiles: true,",
 				"     rowUrlColumn: 'FileName',",
 				"     wildcardPaths:['*.csv']) ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"source1 alterRow(upsertIf(1 == 1)) ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Confirmation_code as string,",
@@ -63,9 +68,10 @@
 				"          FileName as string",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:true,",
+				"     insertable:false,",
 				"     updateable:false,",
-				"     upsertable:false,",
+				"     upsertable:true,",
+				"     keys:['Confirmation_code'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
