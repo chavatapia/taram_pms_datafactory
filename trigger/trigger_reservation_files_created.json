@@ -2,7 +2,7 @@
 	"name": "trigger_reservation_files_created",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
