@@ -1,0 +1,24 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline_reservations",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/airbnb-reservations/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/24a8abd0-d818-4f5d-aca2-258ab66b40fa/resourceGroups/taram-dev/providers/Microsoft.Storage/storageAccounts/frmrcgbank",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
